@@ -1,15 +1,15 @@
 START TRANSACTION;
 --ROLLBACK;
 
-DROP TABLE IF EXISTS game_details, game_details_inventory, game_details_game_user, game_user, player_character, 
-					enemy_scene, armor_type, weapon_type, potion_type, crafting_item_type, soul_jar_size, 
+DROP TABLE IF EXISTS game_details, character_inventory, game_details_game_user, game_user, player_character, 
+					enemy_scene, class_type, armor_type, weapon_type, potion_type, crafting_item_type, soul_jar_size, 
 					armor_inventory, inventory_weapon, inventory_potion, crafting_item_inventory, inventory_soul_jar, 
 					inventory_key_item, scene, enemy, ruin_user, character_class, race, armor, weapon, potion, 
 					key_item, crafting_item, soul_jar; 
 DROP SEQUENCE IF EXISTS game_details_serial, game_user_serial, player_character_serial, soul_jar_serial, crafting_item_serial, 
 						scene_serial, enemy_serial, ruin_user_serial, character_class_serial, race_serial, 
 						armor_serial, weapon_serial, potion_serial, key_item_serial;
-					
+											
 
 CREATE SEQUENCE ruin_user_serial;
 CREATE TABLE ruin_user (
@@ -185,6 +185,7 @@ CREATE TABLE player_character (
 	experience int NOT NULL,
 	level int NOT NULL,
 	is_alive boolean NOT NULL,
+	save_date_time TIMESTAMP NOT NULL,
 	CONSTRAINT PK_character_id PRIMARY KEY (character_id),
 	CONSTRAINT FK_class_id FOREIGN KEY (class_id) REFERENCES character_class (class_id),
 	CONSTRAINT FK_race_id FOREIGN KEY (race_id) REFERENCES race (race_id)
@@ -209,9 +210,12 @@ CREATE TABLE game_user (
 	CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES ruin_user (user_id)
 );
 
-CREATE TABLE game_details_inventory (
+CREATE TABLE character_inventory (
 	inventory_id int NOT NULL,
-	CONSTRAINT PK_inventory PRIMARY KEY (inventory_id)
+	character_id int NOT NULL,
+	CONSTRAINT PK_inventory PRIMARY KEY (inventory_id),
+	CONSTRAINT FK_character_id FOREIGN KEY (character_id) REFERENCES player_character (character_id)
+
 );
 
 CREATE SEQUENCE game_details_serial;
@@ -219,12 +223,10 @@ CREATE TABLE game_details (
 	game_details_id int NOT NULL DEFAULT nextval ('game_details_serial'),
 	scene_id int NOT NULL,
 	character_id int NOT NULL,
-	inventory_id int NOT NULL,
 	save_date_time TIMESTAMP NOT NULL,
 	CONSTRAINT PK_game_details PRIMARY KEY (game_details_id),
 	CONSTRAINT FK_scene_id FOREIGN KEY (scene_id) REFERENCES scene (scene_id),
-	CONSTRAINT FK_character_id FOREIGN KEY (character_id) REFERENCES player_character (character_id),
-	CONSTRAINT FK_inventory_id FOREIGN KEY (inventory_id) REFERENCES game_details_inventory (inventory_id)
+	CONSTRAINT FK_character_id FOREIGN KEY (character_id) REFERENCES player_character (character_id)
 );
 
 CREATE TABLE game_details_game_user (
@@ -242,7 +244,7 @@ CREATE TABLE inventory_key_item (
 	quantity int null,
 	CONSTRAINT PK_inventory_key_item PRIMARY KEY (key_item_id, inventory_id),
 	CONSTRAINT FK_key_item_id FOREIGN KEY (key_item_id) REFERENCES key_item (key_item_id),
-	CONSTRAINT FK_inventory_id FOREIGN KEY (inventory_id) REFERENCES game_details_inventory (inventory_id)
+	CONSTRAINT FK_inventory_id FOREIGN KEY (inventory_id) REFERENCES character_inventory (inventory_id)
 );
 
 CREATE TABLE inventory_potion (
@@ -251,7 +253,7 @@ CREATE TABLE inventory_potion (
 	quantity int null,
 	CONSTRAINT PK_inventory_potion PRIMARY KEY (potion_id, inventory_id),
 	CONSTRAINT FK_potion_id FOREIGN KEY (potion_id) REFERENCES potion (potion_id),
-	CONSTRAINT FK_inventory_id FOREIGN KEY (inventory_id) REFERENCES game_details_inventory (inventory_id)
+	CONSTRAINT FK_inventory_id FOREIGN KEY (inventory_id) REFERENCES character_inventory (inventory_id)
 );
 
 CREATE TABLE inventory_weapon (
@@ -260,7 +262,7 @@ CREATE TABLE inventory_weapon (
 	quantity int null,
 	CONSTRAINT PK_inventory_weapon PRIMARY KEY (weapon_id, inventory_id),
 	CONSTRAINT FK_weapon_id FOREIGN KEY (weapon_id) REFERENCES weapon (weapon_id),
-	CONSTRAINT FK_inventory_id FOREIGN KEY (inventory_id) REFERENCES game_details_inventory (inventory_id)
+	CONSTRAINT FK_inventory_id FOREIGN KEY (inventory_id) REFERENCES character_inventory (inventory_id)
 );
 
 CREATE TABLE armor_inventory (
@@ -269,7 +271,7 @@ CREATE TABLE armor_inventory (
 	quantity int null,
 	CONSTRAINT PK_inventory_armor PRIMARY KEY (armor_id, inventory_id),
 	CONSTRAINT FK_armor_id FOREIGN KEY (armor_id) REFERENCES armor (armor_id),
-	CONSTRAINT FK_inventory_id FOREIGN KEY (inventory_id) REFERENCES game_details_inventory (inventory_id)
+	CONSTRAINT FK_inventory_id FOREIGN KEY (inventory_id) REFERENCES character_inventory (inventory_id)
 );
 
 CREATE TABLE crafting_item_inventory (
@@ -278,7 +280,7 @@ CREATE TABLE crafting_item_inventory (
 	quantity int null,
 	CONSTRAINT PK_crafting_item_inventory PRIMARY KEY (crafting_item_id, inventory_id),
 	CONSTRAINT FK_crafting_item_id FOREIGN KEY (crafting_item_id) REFERENCES crafting_item (crafting_item_id),
-	CONSTRAINT FK_inventory_id FOREIGN KEY (inventory_id) REFERENCES game_details_inventory (inventory_id)
+	CONSTRAINT FK_inventory_id FOREIGN KEY (inventory_id) REFERENCES character_inventory (inventory_id)
 );
 
 CREATE TABLE inventory_soul_jar (
@@ -287,7 +289,7 @@ CREATE TABLE inventory_soul_jar (
 	quantity int null,
 	CONSTRAINT PK_inventory_soul_jar PRIMARY KEY (soul_jar_id, inventory_id),
 	CONSTRAINT FK_soul_jar_id FOREIGN KEY (soul_jar_id) REFERENCES soul_jar (soul_jar_id),
-	CONSTRAINT FK_inventory_id FOREIGN KEY (inventory_id) REFERENCES game_details_inventory (inventory_id)
+	CONSTRAINT FK_inventory_id FOREIGN KEY (inventory_id) REFERENCES character_inventory (inventory_id)
 );
 
 COMMIT TRANSACTION;
