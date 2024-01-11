@@ -53,6 +53,7 @@ CREATE TABLE soul_jar_size (
 	CONSTRAINT PK_soul_jar_size_id PRIMARY KEY (soul_jar_size_id)
 );
 
+
 CREATE TABLE class_type (
 	class_type_id int NOT NULL,
 	class_type VARCHAR(50) NOT NULL,
@@ -72,24 +73,24 @@ CREATE SEQUENCE armor_serial;
 CREATE TABLE armor (
 	armor_id int NOT NULL DEFAULT nextval ('armor_serial'),
 	armor_type_id int NOT NULL,
-	class_bonus int NULL,
+	class_type_bonus int NULL,
 	armor_name VARCHAR(50) NOT NULL,
 	defence_value int NOT NULL,
 	block_value int NULL,
 	CONSTRAINT PK_armor_id PRIMARY KEY (armor_id),
-	CONSTRAINT FK_class_bonus FOREIGN KEY (class_bonus) REFERENCES character_class (class_id),
+	CONSTRAINT FK_class_type_bonus FOREIGN KEY (class_type_bonus) REFERENCES class_type (class_type_id),
 	CONSTRAINT FK_armor_type_id FOREIGN KEY (armor_type_id) REFERENCES armor_type (armor_type_id)
 );
 
 CREATE SEQUENCE weapon_serial;
 CREATE TABLE weapon (
 	weapon_id int NOT NULL DEFAULT nextval ('weapon_serial'),
-	class_bonus int NULL,
+	class_type_bonus int NULL,
 	weapon_type_id int NOT NULL,
 	weapon_name VARCHAR(50) NOT NULL,
 	attack_value int NOT NULL,	
 	CONSTRAINT PK_weapon_id PRIMARY KEY (weapon_id),
-	CONSTRAINT FK_class_bonus FOREIGN KEY (class_bonus) REFERENCES character_class (class_id),
+	CONSTRAINT FK_class_type_bonus FOREIGN KEY (class_type_bonus) REFERENCES class_type (class_type_id),
 	CONSTRAINT FK_weapon_type_id FOREIGN KEY (weapon_type_id) REFERENCES weapon_type (weapon_type_id)
 );
 
@@ -98,6 +99,7 @@ CREATE TABLE potion (
 	potion_id int NOT NULL DEFAULT nextval ('potion_serial'),
 	potion_type_id int NOT NULL,
 	potion_name VARCHAR(50) NOT NULL,
+	potion_value int NOT NULL,
 	CONSTRAINT PK_potion_id PRIMARY KEY (potion_id),
 	CONSTRAINT FK_potion_type_id FOREIGN KEY (potion_type_id) REFERENCES potion_type (potion_type_id)
 );
@@ -146,10 +148,11 @@ CREATE SEQUENCE soul_jar_serial;
 CREATE TABLE soul_jar (
 	soul_jar_id int NOT NULL DEFAULT nextval ('soul_jar_serial'),
 	enemy_id int NULL,
-	size VARCHAR(10) NOT NULL,
+	soul_jar_size_id int NOT NULL,
 	is_full BOOLEAN NOT NULL,
 	CONSTRAINT PK_soul_jar_id PRIMARY KEY (soul_jar_id),
-	CONSTRAINT FK_enemy_id FOREIGN KEY (enemy_id) REFERENCES enemy (enemy_id)
+	CONSTRAINT FK_enemy_id FOREIGN KEY (enemy_id) REFERENCES enemy (enemy_id),
+	CONSTRAINT FK_soul_jar_size_id FOREIGN KEY (soul_jar_size_id) REFERENCES soul_jar_size (soul_jar_size_id)
 );
 
 CREATE SEQUENCE race_serial;
