@@ -179,6 +179,7 @@ CREATE TABLE player_character (
 	agility int NOT NULL,
 	dexterity int NOT NULL,
 	constitution int NOT NULL,
+	intelligence int NOT NULL,
 	base_defense int NOT NULL,
 	base_attack int NOT NULL,
 	base_willpower int NOT NULL,
