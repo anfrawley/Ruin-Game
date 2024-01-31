@@ -17,12 +17,9 @@ INSERT INTO weapon_type (weapon_type_id, weapon_type) VALUES
 	(8, 'Knuckles'),
 	(9, 'Short Bow'),
 	(10, 'Long Bow'),
-	(11, 'Great Bow'),
-	(12, 'Crossbow'),
-	(13, 'Wand'),
-	(14, 'Scepter'),
-	(15, 'Staff'),
-	(16, 'Source Orb');
+	(11, 'Crossbow'),
+	(12, 'Wand'),
+	(13, 'Source Orb');
 	
 INSERT INTO potion_type (potion_type_id, potion_type) VALUES
 	(1, 'Health'),
@@ -89,7 +86,7 @@ INSERT INTO weapon (weapon_name, attack_value, weapon_type_id, class_type_bonus)
 
 --War Hammers
 INSERT INTO weapon (weapon_name, attack_value, weapon_type_id) VALUES
-	('Rusty Carpenters Hammer', 5, 4),
+	('Rusty Carpenters Hammer', 4, 4),
 	('Bronze War Hammer', 10, 4),
 	('Iron War Hammer', 15, 4),
 	('Steel War Hammer', 20, 4),
@@ -97,3 +94,39 @@ INSERT INTO weapon (weapon_name, attack_value, weapon_type_id) VALUES
 	('Onyx War Hammer', 30, 4),
 	('Kreets War Hammer', 42, 4);
 	
+--Great Hammers
+INSERT INTO weapon (weapon_name, attack_value, weapon_type_id) VALUES
+	('Rusty Damaged Great Hammer', 8, 5);
+	
+
+--Battle Axe
+INSERT INTO weapon (weapon_name, attack_value, weapon_type_id) VALUES
+	('Rusty Tomahawk', 4, 6);
+	
+--Great Axe
+INSERT INTO weapon (weapon_name, attack_value, weapon_type_id) VALUES
+	('Rusty Wood Axe', 8, 7);
+	
+--Knuckles
+INSERT INTO weapon (weapon_name, attack_value, weapon_type_id) VALUES
+	('Damaged Brass Knuckles', 3, 8);
+
+--Short Bow
+INSERT INTO weapon (weapon_name, attack_value, weapon_type_id) VALUES
+	('SlingShot', 4, 9);
+	
+--Long Bow
+INSERT INTO weapon (weapon_name, attack_value, weapon_type_id) VALUES
+	('Old Hunting Bow', 6, 10);
+
+--Cross Bow
+INSERT INTO weapon (weapon_name, attack_value, weapon_type_id) VALUES
+	('Old Rusty Crossbow', 5, 11);
+
+--Wand
+INSERT INTO weapon (weapon_name, attack_value, weapon_type_id) VALUES
+	('Cheap Wand', 6, 12);
+
+--Source Orb
+INSERT INTO weapon (weapon_name, attack_value, weapon_type_id) VALUES
+	('Unstable Source', 10, 12);
