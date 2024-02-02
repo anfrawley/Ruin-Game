@@ -109,8 +109,10 @@ CREATE TABLE crafting_item (
 	crafting_item_id int NOT NULL DEFAULT nextval ('crafting_item_serial'),
 	crafting_item_name VARCHAR(50) NOT NULL,
 	crafting_item_desc VARCHAR(200) NOT NULL,
-	crafting_item_type VARCHAR(20) NOT NULL,
-	CONSTRAINT PK_crafting_item_id PRIMARY KEY (crafting_item_id)
+	crafting_item_type_id int NOT NULL,
+	CONSTRAINT PK_crafting_item_id PRIMARY KEY (crafting_item_id),
+	CONSTRAINT FK_crafting_item_type_id FOREIGN KEY (crafting_item_type_id) REFERENCES crafting_item_type (crafting_item_type_id)
+
 );
 
 
@@ -118,7 +120,6 @@ CREATE SEQUENCE key_item_serial;
 CREATE TABLE key_item (
 	key_item_id int NOT NULL DEFAULT nextval ('key_item_serial'),
 	key_item_name VARCHAR(50) NOT NULL,
-	quantity int NULL,
 	CONSTRAINT PK_key_item_id PRIMARY KEY (key_item_id)
 );
 
@@ -133,11 +134,11 @@ CREATE SEQUENCE enemy_serial;
 CREATE TABLE enemy (
 	enemy_id int NOT NULL DEFAULT nextval ('enemy_serial'),
 	enemy_name VARCHAR(100) NOT NULL,
-	enemy_attack int NOT NULL,
-	enemy_defense int NOT NULL,
-	enemy_willpower int NOT NULL,
-	enemy_health int NOT NULL,
-	enemy_stamina int NOT NULL,
+	attack int NOT NULL,
+	defense int NOT NULL,
+	willpower int NOT NULL,
+	health int NOT NULL,
+	stamina int NOT NULL,
 	is_alive BOOLEAN NOT NULL,
 	level int NOT NULL,
 	experience int NOT NULL, 
@@ -178,14 +179,14 @@ CREATE TABLE player_character (
 	dexterity int NOT NULL,
 	constitution int NOT NULL,
 	intelligence int NOT NULL,
-	base_health int NOT NULL,
-	base_stamina int NOT NULL,
-	base_defense int NOT NULL,
-	base_attack int NOT NULL,
-	base_willpower int NOT NULL,
-	total_attack int NOT NULL,
-	total_defense int NOT NULL,
-	total_willpower int NOT NULL,
+	health int NOT NULL,
+	stamina int NOT NULL,
+	defense int NOT NULL,
+	attack int NOT NULL,
+	willpower int NOT NULL,
+	added_attack int NOT NULL,
+	added_defense int NOT NULL,
+	added_willpower int NOT NULL,
 	experience int NOT NULL,
 	level int NOT NULL,
 	is_alive boolean NOT NULL,
@@ -208,8 +209,7 @@ CREATE SEQUENCE game_user_serial;
 CREATE TABLE game_user (
 	game_user_id int NOT NULL DEFAULT nextval ('game_user_serial'),
 	user_id int NOT NULL,
-	date_created TIMESTAMP NOT NULL,
-	date_ended TIMESTAMP NULL,
+	date_created DATE NOT NULL,
 	CONSTRAINT PK_game_user PRIMARY KEY (game_user_id),
 	CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES ruin_user (user_id)
 );
