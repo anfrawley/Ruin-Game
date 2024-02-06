@@ -34,6 +34,9 @@ public class PlayerCharacter {
     private final int LEVEL_4_EXP_REQ = 500;
     private final int LEVEL_5_EXP_REQ = 1000;
 
+    public PlayerCharacter() {
+    }
+
     public PlayerCharacter(int characterId, int classId, int raceId, int equippedArmorId, int equippedWeaponId,
                            String characterName, int strength, int agility, int dexterity, int constitution,
                            int intelligence, int health, int stamina, int defence, int attack, int willpower,
