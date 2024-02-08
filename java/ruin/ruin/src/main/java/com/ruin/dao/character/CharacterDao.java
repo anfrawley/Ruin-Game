@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 public interface CharacterDao {
 
     PlayerCharacter getCharacterById(int id);
-    PlayerCharacter createCharacter(int classId, int raceId, String characterName, LocalDateTime saveDateTime);
+    PlayerCharacter createCharacter(int classId, int raceId, String characterName);
     PlayerCharacter updateCharacter(PlayerCharacter character);
     void deleteCharacterById(int id);
     void levelUp(PlayerCharacter character);

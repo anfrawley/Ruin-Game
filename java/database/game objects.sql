@@ -130,3 +130,19 @@ INSERT INTO weapon (weapon_name, attack_value, weapon_type_id) VALUES
 --Source Orb
 INSERT INTO weapon (weapon_name, attack_value, weapon_type_id) VALUES
 	('Unstable Source', 10, 12);
+	
+
+
+
+
+
+INSERT INTO race (race_name, description, attribute_bonus) VALUES
+	('Big, slow tank race', 'The ___ are a proud, and honorable people. The have spent generations building large and towering buildings in their
+	homeland. And as such, have become strong and hardy. Albeit, quite slow', 'Strength, Constitution'),
+	('Big, fast damage race', 'The ___ are a fierce and agile group. They live in the jungle as such, have developed many skills to easily 
+	travel amongst the trees and learned to fight many dangerous animals', 'Strength, agility'),
+	('Small, fast, ranged focused race', '___ are often times mistaken for elves. And although they do share many characteristics, like being 
+	 quick and masters of ranged weaponry, they assert they are definitely different (They are just missing the pointy ears, really)', 'Agility, 
+	 Dexterity'),
+	 ('The smart and wise race', 'Through generations of dedicated study and experimentation, the __ have developed the ability to wield 
+	  magic, and use it in many facets of their life. For everything from creation magic to offensive and defensive magic', 'Intelligence');
