@@ -186,7 +186,6 @@ CREATE TABLE player_character (
 	willpower int NOT NULL,
 	added_attack int NOT NULL,
 	added_defense int NOT NULL,
-	added_willpower int NOT NULL,
 	experience int NOT NULL,
 	level int NOT NULL,
 	is_alive boolean NOT NULL,

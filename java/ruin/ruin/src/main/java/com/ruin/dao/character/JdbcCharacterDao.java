@@ -53,15 +53,29 @@ public class JdbcCharacterDao implements CharacterDao {
         PlayerCharacter newCharacter = null;
         LocalDateTime saveDateTime = LocalDateTime.now();
         String sql = "INSERT INTO player_character (character_name, race_id, strength, agility, dexterity, constitution, intelligence, " +
-                "health, stamina, willpower, attack, defense, added_attack, added_defence, added_willpower, experience, level, is_alive, " +
-                "save_date_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING player_character_id";
+                "health, stamina, willpower, attack, defense, added_attack, added_defence, experience, level, is_alive, " +
+                "save_date_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING player_character_id;";
 
         try{
             if (raceId == 1) {
                 int newCharacterId = jdbcTemplate.queryForObject(sql, int.class, characterName, raceId, ATTRIBUTE_VALUE + ATTRIBUTE_BONUS, ATTRIBUTE_VALUE,
                         ATTRIBUTE_VALUE, ATTRIBUTE_VALUE + ATTRIBUTE_BONUS, ATTRIBUTE_VALUE, STARTING_MAIN, STARTING_MAIN, STARTING_MAIN, STARTING_ATTACK,
                         STARTING_DEFENSE, STARTING_ADDED_STAT, STARTING_ADDED_STAT, STARTING_ADDED_STAT, STARTING_EXP, STARTING_LEVEL, true);
-
+                newCharacter = getCharacterById(newCharacterId);
+            } else if(raceId == 2) {
+                int newCharacterId = jdbcTemplate.queryForObject(sql, int.class, characterName, raceId, ATTRIBUTE_VALUE + ATTRIBUTE_BONUS,
+                        ATTRIBUTE_VALUE + ATTRIBUTE_BONUS, ATTRIBUTE_VALUE, ATTRIBUTE_VALUE, ATTRIBUTE_VALUE, STARTING_MAIN, STARTING_MAIN, STARTING_MAIN, STARTING_ATTACK,
+                        STARTING_DEFENSE, STARTING_ADDED_STAT, STARTING_ADDED_STAT, STARTING_EXP, STARTING_LEVEL, true);
+                newCharacter = getCharacterById(newCharacterId);
+            } else if (raceId == 3) {
+                int newCharacterId = jdbcTemplate.queryForObject(sql, int.class, characterName, raceId, ATTRIBUTE_VALUE, ATTRIBUTE_VALUE + ATTRIBUTE_BONUS,
+                        ATTRIBUTE_VALUE + ATTRIBUTE_BONUS, ATTRIBUTE_VALUE, STARTING_MAIN, STARTING_MAIN, STARTING_MAIN, STARTING_ATTACK,
+                        STARTING_DEFENSE, STARTING_ADDED_STAT, STARTING_ADDED_STAT, STARTING_EXP, STARTING_LEVEL, true);
+                newCharacter = getCharacterById(newCharacterId);
+            } else {
+                int newCharacterId = jdbcTemplate.queryForObject(sql, int.class, characterName, raceId, ATTRIBUTE_VALUE, ATTRIBUTE_VALUE,
+                        ATTRIBUTE_VALUE, ATTRIBUTE_VALUE, ATTRIBUTE_VALUE + ATTRIBUTE_BONUS, STARTING_MAIN, STARTING_MAIN, STARTING_MAIN, STARTING_ATTACK,
+                        STARTING_DEFENSE, STARTING_ADDED_STAT, STARTING_ADDED_STAT, STARTING_EXP, STARTING_LEVEL, true);
                 newCharacter = getCharacterById(newCharacterId);
             }
         } catch (CannotGetJdbcConnectionException e){
@@ -71,6 +85,53 @@ public class JdbcCharacterDao implements CharacterDao {
         }
 
         return newCharacter;
+    }
+
+    @Override
+    public void updateCharacter(PlayerCharacter playerCharacter){
+        String sql = "UPDATE player_character SET player_character_id = ?, character_name = ?, race_id = ?, equipped_armor_id = ?, equipped_weapon_id = ?, " +
+                "strength = ?, agility = ?, dexterity = ?, constitution = ?, intelligence = ?, health = ?, stamina = ?, defense = ?, attack = ?, willpower = ?, " +
+                "added_attack = ?, added_defense = ?, experience = ?, level = ?, is_alive = ?, save_date_time = ?;";
+
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, playerCharacter.getCharacterId(), playerCharacter.getCharacterName(), playerCharacter.getRaceId(),
+                    playerCharacter.getEquippedArmorId(), playerCharacter.getEquippedWeaponId(), playerCharacter.getStrength(), playerCharacter.getAgility(),
+                    playerCharacter.getDexterity(), playerCharacter.getConstitution(), playerCharacter.getIntelligence(), playerCharacter.getHealth(),
+                    playerCharacter.getStamina(), playerCharacter.getDefence(), playerCharacter.getAttack(), playerCharacter.getWillpower(),
+                    playerCharacter.getAddedAttack(), playerCharacter.getAddedDefense(), playerCharacter.getExperience(), playerCharacter.getLevel(),
+                    playerCharacter.isAlive(), playerCharacter.getSaveDateTime());
+
+            if (rowsAffected == 0){
+                throw new DaoException("Zero rows affected, expected at least one row");
+            }
+        } catch (CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e){
+            throw new DaoException("Data integrity violation", e);
+        }
+
+    }
+
+    @Override
+    public void deleteCharacterById(int id){
+        String sql = "DELETE FROM player_character WHERE character_id = ?";
+
+        try{
+            int rowsAffected = jdbcTemplate.update(sql, id);
+
+            if(rowsAffected == 0){
+                throw new DaoException("Zero rows affected, expected at least one row");
+            }
+        } catch (CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e){
+            throw new DaoException("Data integrity violation", e);
+        }
+    }
+
+    @Override
+    public void levelUp(PlayerCharacter character){
+        
     }
 
     private PlayerCharacter mapRowToCharacter(SqlRowSet rowSet){
@@ -92,7 +153,6 @@ public class JdbcCharacterDao implements CharacterDao {
         playerCharacter.setWillpower(rowSet.getInt("willpower"));
         playerCharacter.setAddedAttack(rowSet.getInt("added_attack"));
         playerCharacter.setAddedDefense(rowSet.getInt("added_defense"));
-        playerCharacter.setAddedWillpower(rowSet.getInt("added_willpower"));
         playerCharacter.setExperience(rowSet.getInt("experience"));
         playerCharacter.setLevel(rowSet.getInt("level"));
         playerCharacter.setAlive(rowSet.getBoolean("is_alive"));

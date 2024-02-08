@@ -8,7 +8,7 @@ public interface CharacterDao {
 
     PlayerCharacter getCharacterById(int id);
     PlayerCharacter createCharacter(int classId, int raceId, String characterName);
-    PlayerCharacter updateCharacter(PlayerCharacter character);
+    void updateCharacter(PlayerCharacter character);
     void deleteCharacterById(int id);
     void levelUp(PlayerCharacter character);
     

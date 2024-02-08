@@ -24,7 +24,6 @@ public class PlayerCharacter {
     private int willpower;
     private int addedAttack;
     private int addedDefense;
-    private int addedWillpower;
     private int experience;
     private int level;
     private boolean isAlive;
@@ -40,7 +39,7 @@ public class PlayerCharacter {
     public PlayerCharacter(int characterId, int classId, int raceId, int equippedArmorId, int equippedWeaponId,
                            String characterName, int strength, int agility, int dexterity, int constitution,
                            int intelligence, int health, int stamina, int defence, int attack, int willpower,
-                           int addedAttack, int addedDefense, int addedWillpower, int experience, int level,
+                           int addedAttack, int addedDefense, int experience, int level,
                            boolean isAlive, LocalDateTime saveDateTime) {
         this.characterId = characterId;
         this.classId = classId;
@@ -60,7 +59,6 @@ public class PlayerCharacter {
         this.willpower = willpower;
         this.addedAttack = addedAttack;
         this.addedDefense = addedDefense;
-        this.addedWillpower = addedWillpower;
         this.experience = experience;
         this.level = level;
         this.isAlive = isAlive;
@@ -211,14 +209,6 @@ public class PlayerCharacter {
         this.addedDefense = addedDefense;
     }
 
-    public int getAddedWillpower() {
-        return addedWillpower;
-    }
-
-    public void setAddedWillpower(int addedWillpower) {
-        this.addedWillpower = addedWillpower;
-    }
-
     public int getExperience() {
         return experience;
     }
@@ -272,12 +262,12 @@ public class PlayerCharacter {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PlayerCharacter that = (PlayerCharacter) o;
-        return characterId == that.characterId && classId == that.classId && raceId == that.raceId && equippedArmorId == that.equippedArmorId && equippedWeaponId == that.equippedWeaponId && strength == that.strength && agility == that.agility && dexterity == that.dexterity && constitution == that.constitution && intelligence == that.intelligence && health == that.health && stamina == that.stamina && defence == that.defence && attack == that.attack && willpower == that.willpower && addedAttack == that.addedAttack && addedDefense == that.addedDefense && addedWillpower == that.addedWillpower && experience == that.experience && level == that.level && isAlive == that.isAlive && characterName.equals(that.characterName) && saveDateTime.equals(that.saveDateTime);
+        return characterId == that.characterId && classId == that.classId && raceId == that.raceId && equippedArmorId == that.equippedArmorId && equippedWeaponId == that.equippedWeaponId && strength == that.strength && agility == that.agility && dexterity == that.dexterity && constitution == that.constitution && intelligence == that.intelligence && health == that.health && stamina == that.stamina && defence == that.defence && attack == that.attack && willpower == that.willpower && addedAttack == that.addedAttack && addedDefense == that.addedDefense && experience == that.experience && level == that.level && isAlive == that.isAlive && characterName.equals(that.characterName) && saveDateTime.equals(that.saveDateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(characterId, classId, raceId, equippedArmorId, equippedWeaponId, characterName, strength, agility, dexterity, constitution, intelligence, health, stamina, defence, attack, willpower, addedAttack, addedDefense, addedWillpower, experience, level, isAlive, saveDateTime);
+        return Objects.hash(characterId, classId, raceId, equippedArmorId, equippedWeaponId, characterName, strength, agility, dexterity, constitution, intelligence, health, stamina, defence, attack, willpower, addedAttack, addedDefense, experience, level, isAlive, saveDateTime);
     }
 
     @Override
@@ -301,7 +291,6 @@ public class PlayerCharacter {
                 ", willpower=" + willpower +
                 ", addedAttack=" + addedAttack +
                 ", addedDefense=" + addedDefense +
-                ", addedWillpower=" + addedWillpower +
                 ", experience=" + experience +
                 ", level=" + level +
                 ", isAlive=" + isAlive +
